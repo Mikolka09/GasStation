@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +22,19 @@ namespace WindowsForms
         {
             InitializeComponent();
 
-            gas = new List<Gas>
+
+
+            gas = new List<Gas>();
+            using (var f = new StreamReader("gas.txt", Encoding.GetEncoding(1251)))
             {
-                new Gas{Name = "A-95", Coast = 22.40M},
-                new Gas{Name = "A-98", Coast = 25.20M},
-                new Gas{Name = "Disel", Coast = 18.80M},
-                new Gas{Name = "Gas", Coast = 12.80M}
-            };
+                while (!(f.EndOfStream))
+                {
+                    Gas g = new Gas();
+                    g.Name = f.ReadLine();
+                    g.Coast = decimal.Parse(f.ReadLine());
+                    gas.Add(g);
+                }
+            }
             foreach (var item in gas)
             {
                 comboBox1.Items.Add(item.Name);
@@ -36,17 +43,17 @@ namespace WindowsForms
 
             radioButton1.Checked = true;
 
-            products = new List<Product>
+            products = new List<Product>();
+            using (var f = new StreamReader("products.txt", Encoding.GetEncoding(1251)))
             {
-                new Product{Name = "Кофе", Price = 4.50M},
-                new Product{Name = "Гамбургер", Price = 20.50M},
-                new Product{Name = "Чай", Price = 2.50M},
-                new Product{Name = "Сендвич", Price = 15.50M},
-                new Product{Name = "Салат", Price = 10.50M},
-                new Product{Name = "Хлеб", Price = 5.50M},
-                new Product{Name = "Вода", Price = 8.50M},
-                new Product{Name = "Пиво", Price = 12.50M},
-            };
+                while (!(f.EndOfStream))
+                {
+                    Product p = new Product();
+                    p.Name = f.ReadLine();
+                    p.Price = decimal.Parse(f.ReadLine());
+                    products.Add(p);
+                }
+            }
 
             checkBoxes = new List<CheckBox>(products.Count);
             textBoxes = new List<TextBox>(products.Count);
@@ -99,6 +106,7 @@ namespace WindowsForms
         {
             label1.Text = gas[comboBox1.SelectedIndex].Coast.ToString();
             GetTotalSum();
+            GetTotalKol();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -117,13 +125,32 @@ namespace WindowsForms
             GetTotalSum();
         }
 
-        void GetTotalSum()
+        private void GetTotalKol()
         {
-            decimal summ = 0M;
-            if(textBox1.Text == "")
-                textBox1.Text = "0";
-            summ = Math.Round(int.Parse(textBox1.Text) * (decimal.Parse(label1.Text)), 2);
-            label2.Text = summ.ToString();
+            if (textBox2.Text != "")
+            {
+                decimal kol = 0M;
+                kol = Math.Round(decimal.Parse(textBox2.Text) / decimal.Parse(label1.Text), 2);
+                textBox1.Text = kol.ToString();
+            }
+        }
+
+        private void GetTotalSum()
+        {
+            if (textBox1.Enabled == true)
+            {
+                decimal summ = 0M;
+                if (textBox1.Text == "")
+                    textBox1.Text = "0,00";
+                summ = Math.Round(decimal.Parse(textBox1.Text) * (decimal.Parse(label1.Text)), 2);
+                label2.Text = summ.ToString();
+            }
+            else
+            {
+                if (textBox2.Text == "")
+                    textBox2.Text = "0,00";
+                label2.Text = Math.Round(decimal.Parse(textBox2.Text), 2).ToString();
+            }
         }
 
         private void checkBox_CheckedChanged(object sender, EventArgs e)
@@ -135,12 +162,14 @@ namespace WindowsForms
 
         private void GetSumCafe(object sender, EventArgs e)
         {
+
             decimal sum = 0M;
             for (int i = 0; i < checkBoxes.Count; i++)
             {
                 sum += Math.Round(decimal.Parse(textBoxes[i].Text) * numericUpDowns[i].Value, 2);
             }
             label3.Text = sum.ToString();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -148,6 +177,42 @@ namespace WindowsForms
             decimal summa = 0M;
             summa = Math.Round(decimal.Parse(label2.Text) + decimal.Parse(label3.Text), 2);
             label12.Text = summa.ToString();
+            ChekToPrint();
         }
+
+        private void ChekToPrint()
+        {
+            int i=1;
+            string chek = $" ЧЕК№{i++} от {DateTime.Now.ToString()}\n" +
+                $"=================\n" +
+                $"  АВТОЗАВПРАВКА:\n" +
+                $"  {label5.Text} марка {comboBox1.Text}\n" +
+                $"  {label6.Text} за литр {label1.Text} грн.\n" +
+                $"  К оплату - {label2.Text} грн.\n" +
+                $"=================\n" +
+                $"  МИНИ-КАФЕ:\n" +
+                $"  К оплате - {label3.Text} грн.\n" +
+                $"=================\n" +
+                $"  ВСЕГО к оплате:\n" +
+                $"  {label12.Text} грн.\n" +
+                $"=================\n" +
+                $" СПАСИБО ЗА ПОКУПКИ!!!";
+            //MessageBox.Show(chek);
+            if(MessageBox.Show(chek) ==DialogResult.OK)
+            {
+                SaveChek(chek);
+            }
+
+        }
+
+        private void SaveChek(string chek)
+        {
+            using (StreamWriter sw = new StreamWriter("cheks.txt", true, System.Text.Encoding.Default))
+            {
+                sw.WriteLine(chek);
+            }
+        }
+
+
     }
 }
