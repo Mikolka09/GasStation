@@ -13,6 +13,8 @@ namespace WindowsForms
 {
     public partial class Form1 : Form
     {
+        Form2 f2;
+        public bool us { get; set;}
         List<Gas> gas;
         List<Product> products;
         List<CheckBox> checkBoxes;
@@ -20,8 +22,10 @@ namespace WindowsForms
         List<NumericUpDown> numericUpDowns;
         public Form1()
         {
-            InitializeComponent();
-
+            
+                InitializeComponent();
+          
+            button2.Visible = us;
 
 
             gas = new List<Gas>();
@@ -182,26 +186,27 @@ namespace WindowsForms
 
         private void ChekToPrint()
         {
-            int i=1;
-            string chek = $" ЧЕК№{i++} от {DateTime.Now.ToString()}\n" +
-                $"=================\n" +
+           
+            string chek = $" ЧЕК № {DateTime.Now.Minute}/{DateTime.Now.Second} от {DateTime.Now.ToString()}\n" +
+                $"=======================\n" +
                 $"  АВТОЗАВПРАВКА:\n" +
-                $"  {label5.Text} марка {comboBox1.Text}\n" +
-                $"  {label6.Text} за литр {label1.Text} грн.\n" +
+                $"  {label5.Text} марка - {comboBox1.Text}\n" +
+                $"  {label6.Text} за литр - {label1.Text} грн.\n" +
+                $"  Кол-во литров - {textBox1.Text} л\n" +
                 $"  К оплату - {label2.Text} грн.\n" +
-                $"=================\n" +
+                $"=======================\n" +
                 $"  МИНИ-КАФЕ:\n" +
                 $"  К оплате - {label3.Text} грн.\n" +
-                $"=================\n" +
+                $"=======================\n" +
                 $"  ВСЕГО к оплате:\n" +
                 $"  {label12.Text} грн.\n" +
-                $"=================\n" +
+                $"=======================\n" +
                 $" СПАСИБО ЗА ПОКУПКИ!!!";
-            //MessageBox.Show(chek);
-            if(MessageBox.Show(chek) ==DialogResult.OK)
-            {
-                SaveChek(chek);
-            }
+            MessageBox.Show(chek);
+            //if (MessageBox.Show(chek) ==DialogResult.OK)
+            //{
+            //    SaveChek(chek);
+            //}
 
         }
 
@@ -213,6 +218,11 @@ namespace WindowsForms
             }
         }
 
-
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            f2 = new Form2();
+            f2.Show();
+            this.DialogResult = DialogResult.OK;
+        }
     }
 }
