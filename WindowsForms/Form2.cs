@@ -94,7 +94,8 @@ namespace WindowsForms
 
         public void administratorLogin()
         {
-
+            Form4 f4 = new Form4();
+            f4.Show();
         }
 
         public void userLogin()
@@ -105,21 +106,28 @@ namespace WindowsForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (list != null)
+
+            if (textBox1.Text != "" && textBox2.Text != "")
             {
-                if (DialogResult == DialogResult.OK)
+                foreach (var item in list)
                 {
-                    foreach (var item in list)
-                    {
-                        if (textBox1.Text == item.login && item.login == "Admin")
-                            if (item.pass == textBox2.Text)
-                                administratorLogin();
-                            else if (textBox1.Text == item.login && item.pass == textBox2.Text)
-                                userLogin();
-                    }
+                    if (textBox1.Text == item.login && item.login == "Admin")
+                        if (item.pass == textBox2.Text)
+                            administratorLogin();
+                        else if (textBox1.Text == item.login && item.pass == textBox2.Text)
+                            userLogin();
                 }
             }
+            else
+            { 
+                MessageBox.Show("Введите Логин и Пароль!!!");
+                this.Update();
+            }
+            if(this.DialogResult==DialogResult.OK)
+                this.Close();
+
         }
+
     }
 
 

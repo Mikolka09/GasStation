@@ -15,9 +15,9 @@ namespace WindowsForms
     {
         Form2 f2;
         public bool us { get; set;}
-        List<Gas> gas;
-        List<Product> products;
-        List<CheckBox> checkBoxes;
+        public List<Gas> gas;
+        public List<Product> products;
+        public List<CheckBox> checkBoxes;
         List<TextBox> textBoxes;
         List<NumericUpDown> numericUpDowns;
         public Form1()
@@ -94,13 +94,13 @@ namespace WindowsForms
 
         }
 
-        class Gas
+        public class Gas
         {
             public string Name { get; set; }
             public decimal Coast { get; set; }
         }
 
-        class Product
+        public class Product
         {
             public string Name { get; set; }
             public decimal Price { get; set; }
