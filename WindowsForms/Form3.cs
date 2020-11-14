@@ -75,8 +75,8 @@ namespace WindowsForms
                 user.pass = textBox3.Text;
                 if (step == true)
                 {
-
-                    saveUsers(user);
+                    list.Add(user);
+                    saveUsers(list);
                     MessageBox.Show("Регистрация прошла УСПЕШНО!!!");
                 }
             }
@@ -92,7 +92,7 @@ namespace WindowsForms
                     f3.Update();
                 }
             }
-            this.DialogResult=DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -100,15 +100,19 @@ namespace WindowsForms
             this.Close();
         }
 
-        public void saveUsers(User user)
+        public void saveUsers(List<User> list)
         {
-            using (FileStream fs = new FileStream("users.bin", FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new FileStream("users.bin", FileMode.Create, FileAccess.Write))
             {
                 using (BinaryWriter bw = new BinaryWriter(fs, Encoding.Unicode))
                 {
-                    bw.Write(user.name);
-                    bw.Write(user.login);
-                    bw.Write(user.pass);
+                    foreach (var item in list)
+                    {
+                        bw.Write(item.name);
+                        bw.Write(item.login);
+                        bw.Write(item.pass);
+                    }
+
                 }
             }
         }
@@ -121,11 +125,14 @@ namespace WindowsForms
                 {
                     using (BinaryReader br = new BinaryReader(fs, Encoding.Unicode))
                     {
-                        user = new User();
-                        user.name = br.ReadString();
-                        user.login = br.ReadString();
-                        user.pass = br.ReadString();
-                        list.Add(user);
+                        while (br.PeekChar() > -1)
+                        {
+                            user = new User();
+                            user.name = br.ReadString();
+                            user.login = br.ReadString();
+                            user.pass = br.ReadString();
+                            list.Add(user);
+                        }
                     }
                 }
             }

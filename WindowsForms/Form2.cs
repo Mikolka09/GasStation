@@ -20,30 +20,18 @@ namespace WindowsForms
         {
             InitializeComponent();
             loadUsers();
-            if (list == null)
+            if (list.Count == 0)
             {
                 Form3 f3 = new Form3();
                 f3.Text = "Регистрация Администратора";
-                if (f3.ShowDialog() == DialogResult.OK)
-                {
-                    f2 = new Form2();
-                    if (f2.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (var item in list)
-                        {
-                            if (textBox1.Text == item.login && item.login == "Admin")
-                                if (item.pass == textBox2.Text)
-                                    administratorLogin();
-                        }
-                    }
-                }
+                f3.ShowDialog();
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
-            if (list != null)
+            if (list.Count != 0)
             {
                 Form3 f3 = new Form3();
                 f3.Text = "Регистрация Пользователя";
@@ -78,15 +66,19 @@ namespace WindowsForms
         {
             if (File.Exists("users.bin"))
             {
+                list.Clear();
                 using (FileStream fs = new FileStream("users.bin", FileMode.Open))
                 {
                     using (BinaryReader br = new BinaryReader(fs, Encoding.Unicode))
                     {
-                        user = new User();
-                        user.name = br.ReadString();
-                        user.login = br.ReadString();
-                        user.pass = br.ReadString();
-                        list.Add(user);
+                        while (br.PeekChar() > -1)
+                        {
+                            user = new User();
+                            user.name = br.ReadString();
+                            user.login = br.ReadString();
+                            user.pass = br.ReadString();
+                            list.Add(user);
+                        }
                     }
                 }
             }
@@ -100,32 +92,37 @@ namespace WindowsForms
 
         public void userLogin()
         {
-            Form1 f1 = new Form1();
-            f1.us = true;
+            Form5 f5 = new Form5();
+            f5.Text = "Пользовательское меню";
+            f5.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            loadUsers();
             if (textBox1.Text != "" && textBox2.Text != "")
             {
                 foreach (var item in list)
                 {
-                    if (textBox1.Text == item.login && item.login == "Admin")
-                        if (item.pass == textBox2.Text)
-                            administratorLogin();
-                        else if (textBox1.Text == item.login && item.pass == textBox2.Text)
-                            userLogin();
+                    if (item.login == textBox1.Text && item.pass == textBox2.Text && item.login == "admin")
+                    { 
+                        administratorLogin();
+                        break;
+                    }
+                    else if (item.login == textBox1.Text && item.pass == textBox2.Text && item.login == "user")
+                    { 
+                        userLogin();
+                        break;
+                    }
                 }
             }
             else
-            { 
+            {
                 MessageBox.Show("Введите Логин и Пароль!!!");
                 this.Update();
             }
-            if(this.DialogResult==DialogResult.OK)
+            if (this.DialogResult == DialogResult.OK)
                 this.Close();
-
         }
 
     }

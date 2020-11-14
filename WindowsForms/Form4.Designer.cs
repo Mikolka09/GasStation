@@ -43,6 +43,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -56,7 +57,7 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(12, 158);
+            this.comboBox2.Location = new System.Drawing.Point(12, 177);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(259, 24);
             this.comboBox2.TabIndex = 1;
@@ -75,7 +76,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(12, 138);
+            this.label2.Location = new System.Drawing.Point(12, 155);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(151, 17);
             this.label2.TabIndex = 3;
@@ -95,7 +96,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(15, 205);
+            this.button2.Location = new System.Drawing.Point(15, 223);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(145, 34);
             this.button2.TabIndex = 5;
@@ -158,7 +159,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 28);
             this.button5.TabIndex = 12;
-            this.button5.Text = "ОК";
+            this.button5.Text = "Save";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -177,7 +178,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(166, 205);
+            this.button4.Location = new System.Drawing.Point(166, 223);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(105, 34);
             this.button4.TabIndex = 14;
@@ -189,19 +190,31 @@
             // 
             this.button7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button7.Location = new System.Drawing.Point(315, 216);
+            this.button7.Location = new System.Drawing.Point(314, 272);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(142, 29);
+            this.button7.Size = new System.Drawing.Size(142, 35);
             this.button7.TabIndex = 15;
             this.button7.Text = "Перезагрузка";
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button8.Location = new System.Drawing.Point(335, 223);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(99, 34);
+            this.button8.TabIndex = 16;
+            this.button8.Text = "Удалить";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 257);
+            this.ClientSize = new System.Drawing.Size(487, 313);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button6);
@@ -241,5 +254,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

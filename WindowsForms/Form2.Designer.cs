@@ -75,7 +75,7 @@
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.Location = new System.Drawing.Point(202, 267);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(141, 31);
+            this.button3.Size = new System.Drawing.Size(141, 40);
             this.button3.TabIndex = 8;
             this.button3.Text = "Регистрация";
             this.button3.UseVisualStyleBackColor = false;

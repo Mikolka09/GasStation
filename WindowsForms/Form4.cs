@@ -17,7 +17,7 @@ namespace WindowsForms
     {
         List<Gas> gas;
         List<Product> products;
-        public bool var;
+        public int index;
         public string pole;
         public Form4()
         {
@@ -63,16 +63,16 @@ namespace WindowsForms
         {
             textBox1.Text = gas[comboBox1.SelectedIndex].Name.ToString();
             textBox2.Text = gas[comboBox1.SelectedIndex].Coast.ToString();
-            var = false;
-            pole = "gas";
+            index = comboBox1.SelectedIndex;
+            pole = "gas_edit";
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             textBox1.Text = products[comboBox2.SelectedIndex].Name.ToString();
             textBox2.Text = products[comboBox2.SelectedIndex].Price.ToString();
-            var = false;
-            pole = "products";
+            index = comboBox2.SelectedIndex;
+            pole = "products_edit";
         }
 
 
@@ -108,8 +108,10 @@ namespace WindowsForms
                 new_g.Name = textBox1.Text;
                 new_g.Coast = Convert.ToDecimal(textBox2.Text);
                 gas.Add(new_g);
-                var = true;
-                pole = "gas";
+                MessageBox.Show("Добавление выполнено!!!");
+                pole = "gas_add";
+                textBox1.Clear();
+                textBox2.Clear();
             }
             else
             {
@@ -126,8 +128,10 @@ namespace WindowsForms
                 new_p.Name = textBox1.Text;
                 new_p.Price = Convert.ToDecimal(textBox2.Text);
                 products.Add(new_p);
-                var = true;
-                pole = "products";
+                MessageBox.Show("Добавление выполнено!!!");
+                pole = "products_add";
+                textBox1.Clear();
+                textBox2.Clear();
             }
             else
             {
@@ -143,38 +147,54 @@ namespace WindowsForms
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (pole == "gas" && var == false)
+            if (pole == "gas_edit")
             {
-                gas[comboBox1.SelectedIndex].Name = textBox1.Text;
-                gas[comboBox1.SelectedIndex].Coast = Convert.ToDecimal(textBox2.Text);
-                saveGas(gas, var);
+                gas[index].Name = textBox1.Text;
+                gas[index].Coast = Convert.ToDecimal(textBox2.Text);
+                saveGas(gas, false);
                 MessageBox.Show("Редактирование выполнено!!!");
             }
-            else if (pole == "gas" && var == true)
-            { 
-                saveGas(gas, var);
-                MessageBox.Show("Добавление выполнено!!!");
-            }
-            if (pole == "products" && var == false)
+            else if (pole == "gas_add")
             {
-                products[comboBox1.SelectedIndex].Name = textBox1.Text;
-                products[comboBox1.SelectedIndex].Price = Convert.ToDecimal(textBox2.Text);
-                saveKaffe(products, var);
+                saveGas(gas, false);
+            }
+            if (pole == "products_edit")
+            {
+                products[index].Name = textBox1.Text;
+                products[index].Price = Convert.ToDecimal(textBox2.Text);
+                saveKaffe(products, false);
                 MessageBox.Show("Редактирование выполнено!!!");
             }
-            else if (pole == "products" && var == true)
-            { 
-                saveKaffe(products, var);
-                MessageBox.Show("Добавление выполнено!!!");
+            else if (pole == "products_add")
+            {
+                saveKaffe(products, false);
             }
-            textBox1.Clear();
-            textBox2.Clear();
+            this.Close();
+            Form4 f4 = new Form4();
+            f4.Show();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Form1 f1 = new Form1();
             Application.Restart();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (pole == "gas_edit")
+            {
+                gas.RemoveAt(index);
+                saveGas(gas, false);
+            }
+            else
+            {
+                products.RemoveAt(index);
+                saveKaffe(products, false);
+            }
+            MessageBox.Show("Удаление выполнено!!!");
+            this.Close();
+            Form4 f4 = new Form4();
+            f4.Show();
         }
     }
 }

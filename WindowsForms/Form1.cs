@@ -14,7 +14,6 @@ namespace WindowsForms
     public partial class Form1 : Form
     {
         Form2 f2;
-        public bool us { get; set;}
         public List<Gas> gas;
         public List<Product> products;
         public List<CheckBox> checkBoxes;
@@ -22,11 +21,8 @@ namespace WindowsForms
         List<NumericUpDown> numericUpDowns;
         public Form1()
         {
-            
-                InitializeComponent();
-          
-            button2.Visible = us;
 
+            InitializeComponent();
 
             gas = new List<Gas>();
             using (var f = new StreamReader("gas.txt", Encoding.GetEncoding(1251)))
@@ -186,7 +182,7 @@ namespace WindowsForms
 
         private void ChekToPrint()
         {
-           
+
             string chek = $" ЧЕК № {DateTime.Now.Minute}/{DateTime.Now.Second} от {DateTime.Now.ToString()}\n" +
                 $"=======================\n" +
                 $"  АВТОЗАВПРАВКА:\n" +
@@ -201,18 +197,20 @@ namespace WindowsForms
                 $"  ВСЕГО к оплате:\n" +
                 $"  {label12.Text} грн.\n" +
                 $"=======================\n" +
-                $" СПАСИБО ЗА ПОКУПКИ!!!";
-            MessageBox.Show(chek);
-            //if (MessageBox.Show(chek) ==DialogResult.OK)
-            //{
-            //    SaveChek(chek);
-            //}
+                $" СПАСИБО ЗА ПОКУПКИ!!!\n" +
+                $"=======================\n";
+           
+            if (MessageBox.Show(chek) == DialogResult.OK)
+            {
+                SaveChek(chek);
+                Application.Restart();
+            }
 
         }
 
         private void SaveChek(string chek)
         {
-            using (StreamWriter sw = new StreamWriter("cheks.txt", true, System.Text.Encoding.Default))
+            using (StreamWriter sw = new StreamWriter("cheks.txt", true, Encoding.UTF8))
             {
                 sw.WriteLine(chek);
             }
@@ -222,7 +220,6 @@ namespace WindowsForms
         {
             f2 = new Form2();
             f2.Show();
-            this.DialogResult = DialogResult.OK;
         }
     }
 }
